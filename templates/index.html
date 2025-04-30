@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Emotion Detector</title>
+    <style>
+        body {
+            text-align: center;
+            padding-top: 40px;
+            padding-bottom: 40px;
+            font-family: Arial, sans-serif;
+        }
+        video, img {
+            border: 3px solid #ccc;
+            border-radius: 10px;
+            margin-top: 10px;
+        }
+        #emotion-box {
+            margin-top: 20px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #444;
+        }
+        .btn {
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Real-time Emotion Detector</h1>
+    <button class="btn" onclick="startCamera()">Start</button>
+    <button class="btn" onclick="stopCamera()">Stop</button>
+    <div>
+        <img id="videoFeed" src="" width="480" height="360">
+    </div>
+    <div id="emotion-box">Detected Emotion: <span id="emotion">None</span></div>
+
+    <script>
+        let videoFeed = document.getElementById("videoFeed");
+        let emotionText = document.getElementById("emotion");
+        let emotionInterval;
+
+        function startCamera() {
+            fetch('/start').then(() => {
+                videoFeed.src = '/video';
+                if (!emotionInterval) {
+                    emotionInterval = setInterval(() => {
+                        fetch('/get_emotion').then(res => res.json()).then(data => {
+                            emotionText.innerText = data.emotion || 'None';
+                        });
+                    }, 500);
+                }
+            });
+        }
+
+        function stopCamera() {
+            fetch('/stop').then(() => {
+                videoFeed.src = "";
+                clearInterval(emotionInterval);
+                emotionInterval = null;
+                emotionText.innerText = 'None';
+            });
+        }
+    </script>
+</body>
+</html>
