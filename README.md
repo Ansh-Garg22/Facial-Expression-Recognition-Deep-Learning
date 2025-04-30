@@ -47,8 +47,8 @@ Below are some example results of how well the model performs on test images:
 
 >  Add your screenshots below 👇
 
-![Prediction Example 1](Results/Screenshot 2025-04-30 123250.png)
-![Prediction Example 2](Results/Screenshot 2025-04-30 123408.png)
+![Prediction Example 1](Results/img1.png)
+![Prediction Example 2](Results/img2.png)
 
 ---
 
