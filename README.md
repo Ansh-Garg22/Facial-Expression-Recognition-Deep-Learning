@@ -47,8 +47,11 @@ Below are some example results of how well the model performs on test images:
 
 >  Add your screenshots below 👇
 
-![Prediction Example 1](Results/img1.png)
-![Prediction Example 2](Results/img2.png)
+<p align="center">
+  <img src="Results/img1.png" width="250"/>
+  <img src="Results/img2.png" width="250"/>
+</p>
+
 
 ---
 
