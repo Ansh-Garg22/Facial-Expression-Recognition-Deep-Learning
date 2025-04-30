@@ -45,7 +45,7 @@ We used the [FER-2013 dataset](https://www.kaggle.com/datasets/msambare/fer2013)
 
 Below are some example results of how well the model performs on test images:
 
->  Add your screenshots below 👇
+>  Screenshots below 👇
 
 <p align="center">
   <img src="Results/img1.png" width="250"/>
