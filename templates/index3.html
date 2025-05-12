@@ -1,0 +1,95 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Emotion Detector</title>
+    <style>
+        body {
+            text-align: center;
+            padding-top: 40px;
+            padding-bottom: 40px;
+            font-family: Arial, sans-serif;
+        }
+        video, img {
+            border: 3px solid #ccc;
+            border-radius: 10px;
+            margin-top: 10px;
+        }
+        #emotion-box, #song-box {
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: bold;
+            color: #444;
+        }
+        .btn {
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Real-time Emotion Detector</h1>
+    <button class="btn" onclick="startCamera()">Start</button>
+    <button class="btn" onclick="stopCamera()">Stop</button>
+    <div>
+        <img id="videoFeed" src="" width="480" height="360">
+    </div>
+    <div id="emotion-box">Detected Emotion: <span id="emotion">None</span></div>
+    <div id="song-box">Recommended Song: <a id="song-link" href="#" target="_blank">None</a></div>
+
+    <script>
+        let videoFeed = document.getElementById("videoFeed");
+        let emotionText = document.getElementById("emotion");
+        let songLink = document.getElementById("song-link");
+        let emotionInterval, songInterval;
+
+        function startCamera() {
+            fetch('/start').then(() => {
+                videoFeed.src = '/video';
+                if (!emotionInterval) {
+                    emotionInterval = setInterval(() => {
+                        fetch('/get_emotion')
+                            .then(res => res.json())
+                            .then(data => {
+                                emotionText.innerText = data.emotion || 'None';
+                            });
+                    }, 500);
+                }
+
+                if (!songInterval) {
+                    songInterval = setInterval(() => {
+                        fetch('/recommend_song')
+                            .then(res => res.json())
+                            .then(data => {
+                                if (data.recommended_song) {
+                                    songLink.href = data.recommended_song;
+                                    songLink.innerText = `${data.emotion} Mood Music`;
+                                }
+                            });
+                    }, 30000); // every 30s
+                }
+            });
+        }
+
+        function stopCamera() {
+            fetch('/stop').then(() => {
+                videoFeed.src = "";
+                clearInterval(emotionInterval);
+                clearInterval(songInterval);
+                emotionInterval = null;
+                songInterval = null;
+                emotionText.innerText = 'None';
+                songLink.href = "#";
+                songLink.innerText = "None";
+            });
+        }
+    </script>
+</body>
+</html>
