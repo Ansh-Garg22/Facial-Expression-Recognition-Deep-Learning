@@ -22,7 +22,7 @@ running = False
 
 # Store recent emotions and time
 emotion_history = []
-YOUTUBE_API_KEY = 'AIzaSyBLzr32VGotjI-crOPzd8gEkhJOIU9-2hM'
+YOUTUBE_API_KEY = 'Place your key'
 last_recommend_time = 0
 recommended_song_url = ""
 recommended_emotion = ""
